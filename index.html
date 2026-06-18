@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Celestial's Cloth ✨ | Class of 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Lato:wght@300;400;700&family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet"/>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp }
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // ══════════════════════════════════════════════
+    //  PASTE YOUR FIREBASE CONFIG HERE
+    // ══════════════════════════════════════════════
+    const firebaseConfig = {
+      apiKey:            "YOUR_API_KEY",
+      authDomain:        "YOUR_AUTH_DOMAIN",
+      projectId:         "YOUR_PROJECT_ID",
+      storageBucket:     "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId:             "YOUR_APP_ID"
+    };
+    // ══════════════════════════════════════════════
+
+    try {
+      const app = initializeApp(firebaseConfig);
+      const db  = getFirestore(app);
+      window.__db             = db;
+      window.__addDoc         = addDoc;
+      window.__collection     = collection;
+      window.__serverTimestamp= serverTimestamp;
+      window.__onSnapshot     = onSnapshot;
+      window.__query          = query;
+      window.__orderBy        = orderBy;
+      window.__firebaseReady  = true;
+      window.dispatchEvent(new Event("firebaseReady"));
+    } catch(e) { console.warn("Firebase init failed:", e); }
+  </script>
+
+  <style>
+    :root {
+      --bg:      #09061a;
+      --surface: #130f2a;
+      --s2:      #1e1840;
+      --violet:  #7c3aed;
+      --vlight:  #a78bfa;
+      --gold:    #c9a84c;
+      --glight:  #f0d080;
+      --text:    #f3f0ff;
+      --muted:   #9ca3af;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── Starfield ── */
+    #stars {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(1px 1px at 8%  15%, rgba(255,255,255,.55) 0%, transparent 100%),
+        radial-gradient(1px 1px at 22% 72%, rgba(255,255,255,.35) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 40% 8%,  rgba(255,255,255,.5)  0%, transparent 100%),
+        radial-gradient(1px 1px at 58% 88%, rgba(255,255,255,.4)  0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 33%, rgba(255,255,255,.45) 0%, transparent 100%),
+        radial-gradient(1px 1px at 91% 60%, rgba(255,255,255,.3)  0%, transparent 100%),
+        radial-gradient(1px 1px at 12% 50%, rgba(255,255,255,.4)  0%, transparent 100%),
+        radial-gradient(1px 1px at 66% 22%, rgba(255,255,255,.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 78%, rgba(255,255,255,.5)  0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 44%, rgba(255,255,255,.3)  0%, transparent 100%);
+    }
+
+    /* ── Layout ── */
+    .page { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px 80px; }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center; padding: 56px 20px 32px;
+      animation: fadeInDown .9s ease both;
+    }
+    .photo-ring {
+      width: 140px; height: 140px; border-radius: 50%;
+      border: 3px solid var(--gold);
+      box-shadow: 0 0 0 6px rgba(201,168,76,.15), 0 0 40px rgba(124,58,237,.5);
+      overflow: hidden; margin: 0 auto 20px;
+      background: var(--s2);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .photo-ring img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+    .photo-placeholder { font-size: 60px; line-height: 1; }
+    .hero-name {
+      font-family:'Playfair Display',serif; font-size: clamp(1.5rem,5vw,2.5rem);
+      font-weight:900; color:#fff; line-height:1.15; letter-spacing:-.5px;
+    }
+    .nickname-badge {
+      display:inline-block; margin:10px 0 8px; padding:5px 18px;
+      border:1.5px solid var(--gold); border-radius:999px;
+      background:rgba(201,168,76,.08);
+      font-family:'Dancing Script',cursive; font-size:1.25rem; color:var(--glight);
+    }
+    .class-ribbon {
+      display:inline-block; margin:6px 0 18px; padding:4px 16px;
+      background:var(--violet); border-radius:4px; font-size:.72rem;
+      font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    }
+    .hero-bio {
+      max-width:500px; margin:0 auto; font-size:.94rem;
+      line-height:1.75; color:#c4b8e8; font-style:italic;
+    }
+
+    /* ── Section headings ── */
+    .section-title {
+      font-family:'Playfair Display',serif; font-size:1.45rem; font-weight:700;
+      text-align:center; margin:52px 0 4px; color:#fff;
+    }
+    .section-sub { text-align:center; font-size:.85rem; color:var(--muted); margin-bottom:20px; }
+
+    /* ── 3-D Canvas wrapper ── */
+    #canvas-wrap {
+      position: relative;
+      width: 100%; height: 520px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #three-canvas {
+      display:block; cursor:grab; touch-action:none;
+      border-radius: 16px;
+    }
+    #three-canvas:active { cursor:grabbing; }
+
+    /* Side labels */
+    .side-label {
+      position:absolute; top:50%; transform:translateY(-50%);
+      font-size:.7rem; font-weight:700; letter-spacing:1.5px;
+      text-transform:uppercase; color:var(--muted);
+      pointer-events:none; opacity:.7;
+    }
+    #label-front { left:8px; }
+    #label-back  { right:8px; }
+
+    /* Hint */
+    .drag-hint {
+      text-align:center; font-size:.78rem; color:var(--vlight);
+      margin-top:10px; letter-spacing:.5px;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    /* Side indicator dots */
+    .side-dots {
+      display:flex; justify-content:center; gap:8px; margin-top:14px;
+    }
+    .side-dot {
+      width:8px; height:8px; border-radius:50%;
+      background:var(--s2); border:1.5px solid var(--muted);
+      transition:background .3s, border-color .3s;
+    }
+    .side-dot.active { background:var(--gold); border-color:var(--gold); }
+
+    /* ── Sign button ── */
+    .sign-cta-wrap { text-align:center; margin-top:22px; }
+    .btn-open-modal {
+      padding:13px 36px; border-radius:999px; border:none;
+      background:linear-gradient(135deg,var(--gold) 0%,var(--glight) 100%);
+      color:#1a1200; font-family:'Lato',sans-serif; font-weight:700; font-size:1rem;
+      cursor:pointer; transition:opacity .2s, transform .15s;
+      box-shadow: 0 6px 24px rgba(201,168,76,.35);
+    }
+    .btn-open-modal:hover { opacity:.9; transform:translateY(-2px); }
+    #current-side-label {
+      display:inline-block; margin-left:10px;
+      font-size:.75rem; font-weight:700; letter-spacing:1px;
+      text-transform:uppercase; color:var(--vlight);
+      vertical-align:middle;
+    }
+
+    /* ── Firebase notice ── */
+    .firebase-notice {
+      display:none; background:rgba(234,88,12,.12);
+      border:1px solid rgba(234,88,12,.35); border-radius:12px;
+      padding:12px 16px; font-size:.8rem; color:#fdba74;
+      margin:16px 0; line-height:1.6;
+    }
+    .firebase-notice.show { display:block; }
+    .firebase-notice code { background:rgba(0,0,0,.3); padding:2px 5px; border-radius:4px; }
+
+    /* ── Modal ── */
+    .modal-backdrop {
+      position:fixed; inset:0; z-index:100;
+      background:rgba(9,6,26,.88); backdrop-filter:blur(7px);
+      display:flex; align-items:center; justify-content:center; padding:16px;
+      opacity:0; pointer-events:none; transition:opacity .22s;
+    }
+    .modal-backdrop.open { opacity:1; pointer-events:all; }
+    .modal {
+      background:var(--surface); border:1px solid rgba(124,58,237,.4);
+      border-radius:20px; padding:30px 26px; width:100%; max-width:390px;
+      box-shadow:0 24px 80px rgba(0,0,0,.65);
+      transform:scale(.94); transition:transform .22s;
+    }
+    .modal-backdrop.open .modal { transform:scale(1); }
+    .modal h2 { font-family:'Playfair Display',serif; font-size:1.3rem; color:#fff; margin-bottom:4px; }
+    .modal .sub { font-size:.8rem; color:var(--muted); margin-bottom:20px; }
+    label { display:block; font-size:.75rem; font-weight:700; letter-spacing:.8px;
+            text-transform:uppercase; color:var(--vlight); margin-bottom:5px; }
+    input[type=text], textarea {
+      width:100%; background:var(--s2); border:1.5px solid rgba(124,58,237,.3);
+      border-radius:10px; padding:9px 13px; color:#fff;
+      font-family:'Lato',sans-serif; font-size:.93rem; outline:none; resize:none;
+      transition:border-color .2s;
+    }
+    input[type=text]:focus, textarea:focus { border-color:var(--violet); }
+    .field { margin-bottom:16px; }
+    .field-error { font-size:.75rem; color:#f87171; margin-top:3px; display:none; }
+    .field-error.show { display:block; }
+    .swatches { display:flex; gap:9px; margin-top:4px; }
+    .swatch {
+      width:28px; height:28px; border-radius:50%; cursor:pointer;
+      border:3px solid transparent; transition:transform .15s, border-color .15s;
+    }
+    .swatch:hover { transform:scale(1.15); }
+    .swatch.selected { border-color:#fff; transform:scale(1.15); }
+    .modal-actions { display:flex; gap:10px; margin-top:22px; }
+    .btn-sign {
+      flex:1; padding:11px; border-radius:999px; border:none;
+      background:linear-gradient(135deg,var(--gold) 0%,var(--glight) 100%);
+      color:#1a1200; font-family:'Lato',sans-serif; font-weight:700; font-size:.95rem;
+      cursor:pointer; transition:opacity .2s, transform .15s;
+    }
+    .btn-sign:hover { opacity:.9; transform:translateY(-1px); }
+    .btn-sign:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+    .btn-cancel {
+      padding:11px 18px; border-radius:999px;
+      border:1.5px solid rgba(255,255,255,.14); background:transparent;
+      color:var(--muted); font-family:'Lato',sans-serif; font-size:.88rem; cursor:pointer;
+      transition:border-color .2s;
+    }
+    .btn-cancel:hover { border-color:rgba(255,255,255,.3); }
+    /* Side picker in modal */
+    .side-picker { display:flex; gap:10px; margin-top:4px; }
+    .side-btn {
+      flex:1; padding:8px; border-radius:10px;
+      border:1.5px solid rgba(124,58,237,.3); background:var(--s2);
+      color:var(--muted); font-family:'Lato',sans-serif; font-size:.82rem;
+      font-weight:700; cursor:pointer; transition:all .2s; text-align:center;
+    }
+    .side-btn.active { border-color:var(--gold); color:var(--gold); background:rgba(201,168,76,.1); }
+
+    /* ── Wall ── */
+    .sig-grid {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:8px;
+    }
+    @media(max-width:620px){.sig-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:400px){.sig-grid{grid-template-columns:1fr;}}
+    .sig-card {
+      background:var(--surface); border-radius:14px; padding:13px 15px;
+      border-left:4px solid var(--violet);
+      animation:fadeInUp .4s ease both;
+    }
+    .sig-card-side {
+      font-size:.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+      margin-bottom:4px; opacity:.7;
+    }
+    .sig-card-name { font-family:'Dancing Script',cursive; font-size:1rem; font-weight:700; margin-bottom:3px; }
+    .sig-card-msg  { font-size:.78rem; color:#b0a8c8; font-style:italic; line-height:1.5; margin-bottom:5px; }
+    .sig-card-time { font-size:.68rem; color:var(--muted); }
+    .empty-state   { text-align:center; padding:36px 20px; color:var(--muted); font-style:italic; grid-column:1/-1; }
+
+    /* ── Toast ── */
+    .toast {
+      position:fixed; bottom:76px; left:50%;
+      transform:translateX(-50%) translateY(16px);
+      background:var(--surface); border:1px solid var(--gold); border-radius:999px;
+      padding:11px 22px; font-size:.88rem; font-weight:700; color:var(--glight);
+      box-shadow:0 8px 30px rgba(0,0,0,.5); z-index:200;
+      opacity:0; transition:opacity .3s, transform .3s; white-space:nowrap; pointer-events:none;
+    }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+    /* ── Share btn ── */
+    .share-btn {
+      position:fixed; bottom:22px; right:18px;
+      background:linear-gradient(135deg,var(--violet) 0%,#a855f7 100%);
+      color:#fff; border:none; border-radius:999px; padding:11px 18px;
+      font-family:'Lato',sans-serif; font-weight:700; font-size:.82rem;
+      cursor:pointer; box-shadow:0 4px 20px rgba(124,58,237,.5); z-index:50;
+      transition:transform .2s, opacity .2s;
+    }
+    .share-btn:hover { transform:translateY(-2px); opacity:.95; }
+
+    footer {
+      text-align:center; padding:44px 0 20px;
+      font-size:.76rem; color:rgba(156,163,175,.45);
+    }
+    footer span { color:var(--gold); }
+
+    @keyframes fadeInDown { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeInUp   { from{opacity:0;transform:translateY(14px)}  to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+<div id="stars"></div>
+
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="photo-ring">
+      <!-- To add a photo: remove the div below and uncomment the img tag -->
+      <div class="photo-placeholder">🌟</div>
+      <!-- <img src="photo.jpg" alt="Akindele Oluwaseun Deborah"/> -->
+    </div>
+    <div class="hero-name">Akindele Oluwaseun Deborah</div>
+    <div class="nickname-badge">✨ Celestial ✨</div><br/>
+    <div class="class-ribbon">Class of 2026</div>
+    <p class="hero-bio">
+      Celestial walked through four years of faith, brilliance, and unshakeable grace.
+      She wore her white with pride — now it's your turn to leave your mark on her story.
+      Sign the cloth. Let her carry your love into the next chapter. 🕊️
+    </p>
+  </section>
+
+  <div class="firebase-notice" id="firebaseNotice">
+    ⚠️ <strong>Firebase not connected.</strong> Signatures only last this session.
+    To save them permanently, open <code>index.html</code>, find <code>firebaseConfig</code> near the top, and paste your Firebase credentials. See README for step-by-step help.
+  </div>
+
+  <!-- 3-D DRESS -->
+  <h2 class="section-title">Sign the Cloth</h2>
+  <p class="section-sub">Drag to spin · Scroll to rotate · Sign front &amp; back</p>
+
+  <div id="canvas-wrap">
+    <canvas id="three-canvas"></canvas>
+    <span class="side-label" id="label-front">◀ FRONT</span>
+    <span class="side-label" id="label-back">BACK ▶</span>
+  </div>
+  <div class="drag-hint" id="dragHint">✦ drag the dress to spin it &nbsp;|&nbsp; scroll to rotate ✦</div>
+  <div class="side-dots">
+    <div class="side-dot active" id="dot-front" title="Front"></div>
+    <div class="side-dot"        id="dot-back"  title="Back"></div>
+  </div>
+
+  <div class="sign-cta-wrap">
+    <button class="btn-open-modal" id="btnOpenModal">
+      ✍️ Sign This Side <span id="current-side-label">(FRONT)</span>
+    </button>
+  </div>
+
+  <!-- WALL -->
+  <h2 class="section-title" style="margin-top:60px;">Everyone Who Signed 💛</h2>
+  <p class="section-sub" id="sigCount">Be the first to sign!</p>
+  <div class="sig-grid" id="sigGrid">
+    <div class="empty-state">No signatures yet — be the first! 🖊️</div>
+  </div>
+
+  <footer>Made with ❤️ for <span>Celestial</span> · Class of 2026 · Forever celebrated</footer>
+</div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <h2 id="modalTitle">✍️ Sign Celestial's Cloth</h2>
+    <p class="sub" id="modalSub">Signing the <strong>front</strong> of her dress.</p>
+
+    <div class="field">
+      <label for="sigName">Your Name *</label>
+      <input type="text" id="sigName" placeholder="e.g. Grace Adeyemi" maxlength="28" autocomplete="off"/>
+      <div class="field-error" id="nameError">Please enter your name.</div>
+    </div>
+    <div class="field">
+      <label for="sigMsg">Short Message (optional)</label>
+      <textarea id="sigMsg" rows="2" placeholder="Leave a little love..." maxlength="80"></textarea>
+    </div>
+    <div class="field">
+      <label>Pick Your Side</label>
+      <div class="side-picker">
+        <button class="side-btn active" id="modalFrontBtn" data-side="front">👗 Front</button>
+        <button class="side-btn"        id="modalBackBtn"  data-side="back">🔄 Back</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Marker Color</label>
+      <div class="swatches">
+        <div class="swatch selected" data-color="#2563eb" style="background:#2563eb;"></div>
+        <div class="swatch" data-color="#dc2626" style="background:#dc2626;"></div>
+        <div class="swatch" data-color="#16a34a" style="background:#16a34a;"></div>
+        <div class="swatch" data-color="#9333ea" style="background:#9333ea;"></div>
+        <div class="swatch" data-color="#ea580c" style="background:#ea580c;"></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="btnCancel">Cancel</button>
+      <button class="btn-sign"   id="btnSign">Sign It ✍️</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<button class="share-btn" id="shareBtn">🔗 Share Celestial's Page</button>
+
+<!-- THREE.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  THREE.JS  —  3-D Dress with front/back texture signing
+// ════════════════════════════════════════════════════════════
+
+const canvas    = document.getElementById('three-canvas');
+const wrap      = document.getElementById('canvas-wrap');
+
+// Scene
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x000000, 0);
+
+const scene  = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+camera.position.set(0, 0, 3.6);
+
+// Lights
+const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+scene.add(ambient);
+const dirLight = new THREE.DirectionalLight(0xfff8e7, 1.2);
+dirLight.position.set(2, 3, 4);
+scene.add(dirLight);
+const rimLight = new THREE.DirectionalLight(0x7c3aed, 0.5);
+rimLight.position.set(-3, -1, -2);
+scene.add(rimLight);
+
+// ── Texture canvases (front + back) ──────────────────────────
+const TEX_W = 512, TEX_H = 768;
+
+function makeClothCanvas(side) {
+  const tc = document.createElement('canvas');
+  tc.width = TEX_W; tc.height = TEX_H;
+  const ctx = tc.getContext('2d');
+
+  // Fabric base
+  const grad = ctx.createLinearGradient(0, 0, TEX_W, TEX_H);
+  grad.addColorStop(0,   '#fffef8');
+  grad.addColorStop(0.5, '#f5f0e6');
+  grad.addColorStop(1,   '#ede8d8');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, TEX_W, TEX_H);
+
+  // Subtle linen texture
+  for (let i = 0; i < 180; i++) {
+    ctx.strokeStyle = `rgba(180,165,130,${Math.random() * 0.07 + 0.03})`;
+    ctx.lineWidth   = Math.random() * 1.2 + 0.3;
+    const y = Math.random() * TEX_H;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(TEX_W, y + (Math.random()-0.5)*4);
+    ctx.stroke();
+  }
+
+  // Neckline
+  ctx.strokeStyle = 'rgba(180,160,110,0.5)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(180, 10); ctx.quadraticCurveTo(256, 90, 332, 10);
+  ctx.stroke();
+
+  // Seams
+  ctx.setLineDash([6,5]);
+  ctx.strokeStyle = 'rgba(180,160,110,0.35)';
+  ctx.lineWidth = 1;
+  // Shoulders
+  ctx.beginPath(); ctx.moveTo(100, 20);  ctx.lineTo(60,  380); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(412, 20);  ctx.lineTo(452, 380); ctx.stroke();
+  // Waist seam
+  ctx.beginPath(); ctx.moveTo(55, 290); ctx.lineTo(457, 290); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Hem stitch
+  ctx.strokeStyle = 'rgba(180,160,110,0.4)';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([5,6]);
+  ctx.beginPath(); ctx.moveTo(30, 740); ctx.lineTo(482, 740); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Side label (faint)
+  ctx.font = 'bold 11px Lato, sans-serif';
+  ctx.fillStyle  = 'rgba(150,130,90,0.25)';
+  ctx.letterSpacing = '3px';
+  ctx.textAlign = 'center';
+  ctx.fillText(side.toUpperCase(), TEX_W/2, TEX_H - 14);
+
+  return tc;
+}
+
+const frontCanvas  = makeClothCanvas('front');
+const backCanvas   = makeClothCanvas('back');
+const frontTexture = new THREE.CanvasTexture(frontCanvas);
+const backTexture  = new THREE.CanvasTexture(backCanvas);
+frontTexture.needsUpdate = true;
+backTexture.needsUpdate  = true;
+
+// ── Dress shape via LatheGeometry ────────────────────────────
+function buildDressGeometry() {
+  // Points: x = radius, y = height (bottom → top)
+  const pts = [
+    new THREE.Vector2(0.62, -1.30),  // hem wide
+    new THREE.Vector2(0.58, -1.10),
+    new THREE.Vector2(0.52, -0.70),
+    new THREE.Vector2(0.44, -0.20),  // skirt flare
+    new THREE.Vector2(0.36,  0.05),  // waist
+    new THREE.Vector2(0.34,  0.25),
+    new THREE.Vector2(0.38,  0.52),  // bust
+    new THREE.Vector2(0.34,  0.72),
+    new THREE.Vector2(0.28,  0.88),  // shoulder
+    new THREE.Vector2(0.18,  1.00),
+    new THREE.Vector2(0.10,  1.10),  // neck
+    new THREE.Vector2(0.06,  1.20),
+  ];
+  return new THREE.LatheGeometry(pts, 64);
+}
+
+const geo = buildDressGeometry();
+
+// Two materials: front face & back face
+const matFront = new THREE.MeshStandardMaterial({
+  map: frontTexture, side: THREE.FrontSide,
+  roughness: 0.78, metalness: 0.02
+});
+const matBack = new THREE.MeshStandardMaterial({
+  map: backTexture,  side: THREE.BackSide,
+  roughness: 0.78, metalness: 0.02
+});
+
+const dressFront = new THREE.Mesh(geo, matFront);
+const dressBack  = new THREE.Mesh(geo, matBack);
+const dressGroup = new THREE.Group();
+dressGroup.add(dressFront, dressBack);
+scene.add(dressGroup);
+
+// Subtle gold sparkle particles
+const sparkleGeo = new THREE.BufferGeometry();
+const sp = [];
+for (let i = 0; i < 60; i++) {
+  const angle  = Math.random() * Math.PI * 2;
+  const radius = 0.55 + Math.random() * 0.25;
+  const yy     = (Math.random() - 0.5) * 2.8;
+  sp.push(Math.cos(angle)*radius, yy, Math.sin(angle)*radius);
+}
+sparkleGeo.setAttribute('position', new THREE.Float32BufferAttribute(sp, 3));
+const sparkleMat = new THREE.PointsMaterial({ color: 0xc9a84c, size: 0.014, transparent: true, opacity: 0.55 });
+const sparkles   = new THREE.Points(sparkleGeo, sparkleMat);
+dressGroup.add(sparkles);
+
+// ── Resize ────────────────────────────────────────────────────
+function resize() {
+  const w = Math.min(wrap.clientWidth, 480);
+  const h = Math.min(wrap.clientHeight, 520);
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  canvas.style.width  = w + 'px';
+  canvas.style.height = h + 'px';
+}
+resize();
+window.addEventListener('resize', resize);
+
+// ── Rotation state ────────────────────────────────────────────
+let autoY     = 0;   // auto-spin angle
+let manualY   = 0;   // user drag delta
+let targetY   = 0;
+let isDragging= false, lastX = 0;
+let scrollRot = 0;
+
+// Touch / mouse drag
+canvas.addEventListener('mousedown', e => { isDragging=true; lastX=e.clientX; canvas.style.cursor='grabbing'; });
+window.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  const dx = e.clientX - lastX; lastX = e.clientX;
+  targetY += dx * 0.012;
+});
+window.addEventListener('mouseup', () => { isDragging=false; canvas.style.cursor='grab'; });
+
+canvas.addEventListener('touchstart', e => {
+  isDragging=true; lastX=e.touches[0].clientX;
+}, { passive:true });
+canvas.addEventListener('touchmove', e => {
+  if (!isDragging) return;
+  const dx = e.touches[0].clientX - lastX; lastX = e.touches[0].clientX;
+  targetY += dx * 0.013;
+}, { passive:true });
+canvas.addEventListener('touchend', () => { isDragging=false; });
+
+// Scroll → rotate
+window.addEventListener('wheel', e => {
+  scrollRot += e.deltaY * 0.003;
+}, { passive:true });
+
+// ── Which side is showing? ────────────────────────────────────
+const dotFront    = document.getElementById('dot-front');
+const dotBack     = document.getElementById('dot-back');
+const labelFront  = document.getElementById('label-front');
+const labelBack   = document.getElementById('label-back');
+const currentSideLbl = document.getElementById('current-side-label');
+const modalSub    = document.getElementById('modalSub');
+const modalFrontBtn = document.getElementById('modalFrontBtn');
+const modalBackBtn  = document.getElementById('modalBackBtn');
+let currentSide = 'front';
+
+function normAngle(a) { return ((a % (Math.PI*2)) + Math.PI*2) % (Math.PI*2); }
+
+function updateSideUI(angle) {
+  const a    = normAngle(angle);
+  const isFront = (a < Math.PI * 0.5 || a > Math.PI * 1.5);
+  const newSide = isFront ? 'front' : 'back';
+  if (newSide !== currentSide) {
+    currentSide = newSide;
+    dotFront.classList.toggle('active', isFront);
+    dotBack.classList.toggle('active',  !isFront);
+    currentSideLbl.textContent = '(' + currentSide.toUpperCase() + ')';
+    // Sync modal side button
+    modalFrontBtn.classList.toggle('active', isFront);
+    modalBackBtn.classList.toggle('active',  !isFront);
+    modalSub.innerHTML = `Signing the <strong>${currentSide}</strong> of her dress.`;
+  }
+  // Side label opacity
+  const frontAlpha = 1 - Math.min(a < Math.PI ? a : Math.PI*2-a, 1);
+  labelFront.style.opacity = (0.3 + 0.7*(1-Math.min(a/Math.PI,1))).toFixed(2);
+  labelBack.style.opacity  = (0.3 + 0.7*(Math.min(a/Math.PI,1))).toFixed(2);
+}
+
+// ── Animate loop ──────────────────────────────────────────────
+let clock = new THREE.Clock();
+
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = clock.getDelta();
+
+  if (!isDragging) {
+    autoY += dt * 0.38;  // gentle auto-spin
+  }
+  manualY += (targetY - manualY) * 0.08; // ease
+
+  const totalY = autoY + manualY + scrollRot;
+  dressGroup.rotation.y = totalY;
+
+  // Gentle bob
+  dressGroup.position.y = Math.sin(clock.getElapsedTime() * 0.7) * 0.04;
+
+  // Sparkle pulse
+  sparkleMat.opacity = 0.4 + Math.sin(clock.getElapsedTime()*1.5)*0.25;
+
+  updateSideUI(totalY);
+  renderer.render(scene, camera);
+}
+animate();
+
+// ═══════════════════════════════════════════════════════════════
+//  Signature rendering onto the texture canvas
+// ═══════════════════════════════════════════════════════════════
+
+function drawSigOnTexture(sig) {
+  const tc  = sig.side === 'back' ? backCanvas  : frontCanvas;
+  const tex = sig.side === 'back' ? backTexture : frontTexture;
+  const ctx = tc.getContext('2d');
+
+  // Convert % to pixel coords (centre the text block)
+  const px = (sig.x_percent / 100) * TEX_W;
+  const py = (sig.y_percent / 100) * TEX_H;
+
+  const rot = (Math.random() * 24 - 12) * Math.PI / 180;
+  ctx.save();
+  ctx.translate(px, py);
+  ctx.rotate(rot);
+
+  // Name
+  const fontSize = 22 + Math.floor(Math.random() * 6);
+  ctx.font = `700 ${fontSize}px "Dancing Script", cursive`;
+  ctx.fillStyle = sig.color;
+  ctx.textAlign = 'center';
+  ctx.fillText(sig.name, 0, 0);
+
+  // Message
+  if (sig.message) {
+    ctx.font = `400 13px "Dancing Script", cursive`;
+    ctx.fillStyle = sig.color + 'cc';
+    ctx.fillText(sig.message.length > 32 ? sig.message.slice(0,32)+'…' : sig.message, 0, 18);
+  }
+  ctx.restore();
+  tex.needsUpdate = true;
+}
+
+// Re-draw all existing sigs
+function redrawAllSigs(sigs) {
+  // Reset canvases
+  [frontCanvas, backCanvas].forEach((tc, i) => {
+    const ctx = tc.getContext('2d');
+    const grad = ctx.createLinearGradient(0,0,TEX_W,TEX_H);
+    grad.addColorStop(0,'#fffef8'); grad.addColorStop(.5,'#f5f0e6'); grad.addColorStop(1,'#ede8d8');
+    ctx.fillStyle = grad; ctx.fillRect(0,0,TEX_W,TEX_H);
+    // Redraw seams
+    const side = i === 0 ? 'front' : 'back';
+    const tmp = makeClothCanvas(side);
+    ctx.drawImage(tmp, 0, 0);
+  });
+  sigs.forEach(s => drawSigOnTexture(s));
+  frontTexture.needsUpdate = true;
+  backTexture.needsUpdate  = true;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  MODAL + SIGNING LOGIC
+// ═══════════════════════════════════════════════════════════════
+
+let selectedColor  = '#2563eb';
+let selectedModalSide = 'front';
+let allSignatures  = [];
+let useFirebase    = false;
+
+const modalBackdrop = document.getElementById('modalBackdrop');
+const sigNameInput  = document.getElementById('sigName');
+const sigMsgInput   = document.getElementById('sigMsg');
+const nameError     = document.getElementById('nameError');
+const btnSign       = document.getElementById('btnSign');
+const btnCancel     = document.getElementById('btnCancel');
+const sigGrid       = document.getElementById('sigGrid');
+const sigCountEl    = document.getElementById('sigCount');
+const toastEl       = document.getElementById('toast');
+const shareBtn      = document.getElementById('shareBtn');
+const firebaseNotice= document.getElementById('firebaseNotice');
+const btnOpenModal  = document.getElementById('btnOpenModal');
+
+// Color swatches
+document.querySelectorAll('.swatch').forEach(sw => {
+  sw.addEventListener('click', () => {
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
+    sw.classList.add('selected');
+    selectedColor = sw.dataset.color;
+  });
+});
+
+// Side picker in modal
+[modalFrontBtn, modalBackBtn].forEach(btn => {
+  btn.addEventListener('click', () => {
+    modalFrontBtn.classList.remove('active');
+    modalBackBtn.classList.remove('active');
+    btn.classList.add('active');
+    selectedModalSide = btn.dataset.side;
+    modalSub.innerHTML = `Signing the <strong>${selectedModalSide}</strong> of her dress.`;
+  });
+});
+
+// Open modal
+btnOpenModal.addEventListener('click', () => {
+  selectedModalSide = currentSide;
+  modalFrontBtn.classList.toggle('active', currentSide === 'front');
+  modalBackBtn.classList.toggle('active',  currentSide === 'back');
+  modalSub.innerHTML = `Signing the <strong>${currentSide}</strong> of her dress.`;
+  sigNameInput.value = ''; sigMsgInput.value = '';
+  nameError.classList.remove('show');
+  modalBackdrop.classList.add('open');
+  setTimeout(() => sigNameInput.focus(), 150);
+});
+
+function closeModal() { modalBackdrop.classList.remove('open'); }
+btnCancel.addEventListener('click', closeModal);
+modalBackdrop.addEventListener('click', e => { if (e.target===modalBackdrop) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeModal(); });
+
+// Submit
+btnSign.addEventListener('click', async () => {
+  const name = sigNameInput.value.trim();
+  const msg  = sigMsgInput.value.trim();
+  if (!name) { nameError.classList.add('show'); sigNameInput.focus(); return; }
+  nameError.classList.remove('show');
+  btnSign.disabled = true; btnSign.textContent = 'Signing...';
+
+  // Random position on the relevant side (avoid extreme edges)
+  const sigData = {
+    name, message: msg,
+    color: selectedColor,
+    side: selectedModalSide,
+    x_percent: 20 + Math.random() * 60,
+    y_percent: 15 + Math.random() * 65,
+    timestamp: Date.now()
+  };
+
+  if (useFirebase) {
+    try {
+      await window.__addDoc(
+        window.__collection(window.__db, 'signatures'),
+        { ...sigData, timestamp: window.__serverTimestamp() }
+      );
+    } catch(err) {
+      console.error(err);
+      localAddSig(sigData);
+    }
+  } else {
+    localAddSig(sigData);
+  }
+
+  closeModal();
+  showToast(`You signed the ${sigData.side}! 🎉`);
+  btnSign.disabled = false; btnSign.textContent = 'Sign It ✍️';
+});
+
+function localAddSig(sig) {
+  allSignatures.unshift(sig);
+  drawSigOnTexture(sig);
+  renderWall(allSignatures);
+}
+
+// ── Wall ──────────────────────────────────────────────────────
+function renderWall(sigs) {
+  sigGrid.innerHTML = '';
+  if (!sigs.length) {
+    sigGrid.innerHTML = '<div class="empty-state">No signatures yet — be the first! 🖊️</div>';
+    sigCountEl.textContent = 'Be the first to sign!';
+    return;
+  }
+  sigCountEl.textContent = `${sigs.length} ${sigs.length===1?'person has':'people have'} signed so far 🎉`;
+  sigs.forEach((sig, i) => {
+    const card = document.createElement('div');
+    card.className = 'sig-card';
+    card.style.borderLeftColor = sig.color;
+    card.style.animationDelay  = (i * 55) + 'ms';
+    const ts = sig.timestamp?.seconds ? sig.timestamp.seconds*1000 : sig.timestamp;
+    card.innerHTML = `
+      <div class="sig-card-side" style="color:${sig.color}">${(sig.side||'front').toUpperCase()}</div>
+      <div class="sig-card-name" style="color:${sig.color}">${escHtml(sig.name)}</div>
+      ${sig.message ? `<div class="sig-card-msg">"${escHtml(sig.message)}"</div>` : ''}
+      <div class="sig-card-time">${timeAgo(ts)}</div>
+    `;
+    sigGrid.appendChild(card);
+  });
+}
+
+// ── Firebase listener ─────────────────────────────────────────
+function initFirebase() {
+  try {
+    const q = window.__query(
+      window.__collection(window.__db, 'signatures'),
+      window.__orderBy('timestamp', 'desc')
+    );
+    window.__onSnapshot(q, snap => {
+      allSignatures = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+      redrawAllSigs(allSignatures);
+      renderWall(allSignatures);
+    });
+  } catch(e) { console.error(e); }
+}
+
+window.addEventListener('firebaseReady', () => {
+  if (!window.__db || window.__db._databaseId?.projectId === 'YOUR_PROJECT_ID') {
+    firebaseNotice.classList.add('show'); return;
+  }
+  useFirebase = true;
+  initFirebase();
+});
+setTimeout(() => { if (!useFirebase) firebaseNotice.classList.add('show'); }, 3000);
+
+// ── Share ─────────────────────────────────────────────────────
+shareBtn.addEventListener('click', async () => {
+  const data = { title:"Sign Celestial's Cloth ✨", text:"Akindele is graduating! Sign her virtual cloth 🎓", url:window.location.href };
+  if (navigator.share) { try { await navigator.share(data); } catch(e){} }
+  else { await navigator.clipboard.writeText(window.location.href); showToast('Link copied! 📋'); }
+});
+
+// ── Helpers ───────────────────────────────────────────────────
+function showToast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  setTimeout(() => toastEl.classList.remove('show'), 3200);
+}
+function timeAgo(ts) {
+  if (!ts) return '';
+  const m = Math.floor((Date.now() - (typeof ts==='number'?ts:ts)) / 60000);
+  if (m<1) return 'just now';
+  if (m<60) return `${m}m ago`;
+  const h=Math.floor(m/60);
+  if (h<24) return `${h}h ago`;
+  return `${Math.floor(h/24)}d ago`;
+}
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
