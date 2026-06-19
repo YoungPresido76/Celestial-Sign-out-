@@ -89,40 +89,16 @@
       text-align: center; padding: 56px 20px 32px;
       animation: fadeInDown .9s ease both;
     }
-    .hero-photo-row {
-      position: relative;
-      display: flex; flex-direction: row; align-items: center; justify-content: center;
-      gap: 16px; margin: 0 auto 20px; width: fit-content;
-    }
     .photo-ring {
       width: 140px; height: 140px; border-radius: 50%;
       border: 3px solid var(--gold);
       box-shadow: 0 0 0 6px rgba(201,168,76,.15), 0 0 40px rgba(124,58,237,.5);
-      overflow: hidden; margin: 0;
+      overflow: hidden; margin: 0 auto 20px;
       background: var(--s2);
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
     }
     .photo-ring img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
     .photo-placeholder { font-size: 60px; line-height: 1; }
-    .brand-badge {
-      width: clamp(44px, 9vw, 56px); height: clamp(44px, 9vw, 56px);
-      border-radius: 14px;
-      background: var(--surface);
-      border: 1px solid var(--gold);
-      box-shadow: 0 4px 16px rgba(0,0,0,.35);
-      overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .brand-badge img { width:100%; height:100%; object-fit:cover; border-radius:13px; }
-    @media (max-width: 480px) {
-      .hero-photo-row { display: block; position: relative; width: 140px; }
-      .brand-badge {
-        position: absolute; bottom: -4px; right: -4px;
-        width: clamp(36px, 11vw, 44px); height: clamp(36px, 11vw, 44px);
-      }
-    }
     .hero-name {
       font-family:'Playfair Display',serif; font-size: clamp(1.5rem,5vw,2.5rem);
       font-weight:900; color:#fff; line-height:1.15; letter-spacing:-.5px;
@@ -339,15 +315,10 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-photo-row">
-      <div class="photo-ring">
-        <!-- To add a photo: remove the div below and uncomment the img tag -->
+    <div class="photo-ring">
+      <!-- To add a photo: remove the div below and uncomment the img tag -->
 <img src="celestial.png" alt="Akindele Oluwaseun Deborah" />
-        <!-- <img src="photo.jpg" alt="Akindele Oluwaseun Deborah"/> -->
-      </div>
-      <div class="brand-badge" title="Boluwatiwi Support Foundation">
-        <img src="bsf-logo.png" alt="Boluwatiwi Support Foundation logo"/>
-      </div>
+      <!-- <img src="photo.jpg" alt="Akindele Oluwaseun Deborah"/> -->
     </div>
     <div class="hero-name">Akindele Oluwaseun Deborah</div>
     <div class="nickname-badge">✨ Celestial ✨</div><br/>
@@ -452,17 +423,15 @@ const wrap      = document.getElementById('canvas-wrap');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setClearColor(0x000000, 0);
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.9;
 
 const scene  = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
 camera.position.set(0, 0, 3.6);
 
 // Lights
-const ambient = new THREE.AmbientLight(0xffffff, 0.45);
+const ambient = new THREE.AmbientLight(0xffffff, 0.6);
 scene.add(ambient);
-const dirLight = new THREE.DirectionalLight(0xfff8e7, 0.8);
+const dirLight = new THREE.DirectionalLight(0xfff8e7, 1.2);
 dirLight.position.set(2, 3, 4);
 scene.add(dirLight);
 const rimLight = new THREE.DirectionalLight(0x7c3aed, 0.5);
@@ -479,9 +448,9 @@ function makeClothCanvas(side) {
 
   // Fabric base
   const grad = ctx.createLinearGradient(0, 0, TEX_W, TEX_H);
-  grad.addColorStop(0,   '#f0ead8');
-  grad.addColorStop(0.5, '#ddd2b8');
-  grad.addColorStop(1,   '#c9bb98');
+  grad.addColorStop(0,   '#fffef8');
+  grad.addColorStop(0.5, '#f5f0e6');
+  grad.addColorStop(1,   '#ede8d8');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, TEX_W, TEX_H);
 
@@ -494,11 +463,11 @@ function makeClothCanvas(side) {
     ctx.stroke();
   }
 
-  // Neckline (wide horizontal band — matches off-shoulder geometry)
+  // Neckline
   ctx.strokeStyle = 'rgba(180,160,110,0.5)';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(60, 40); ctx.lineTo(452, 40);
+  ctx.moveTo(180, 10); ctx.quadraticCurveTo(256, 90, 332, 10);
   ctx.stroke();
 
   // Seams
@@ -537,9 +506,6 @@ frontTexture.needsUpdate = true;
 backTexture.needsUpdate  = true;
 
 // ── Dress shape via LatheGeometry ────────────────────────────
-// Off-shoulder silhouette: profile terminates in a wide horizontal
-// band instead of tapering up to a neck, so the revolved surface
-// reads as a straight-across off-shoulder neckline.
 function buildDressGeometry() {
   // Points: x = radius, y = height (bottom → top)
   const pts = [
@@ -550,9 +516,11 @@ function buildDressGeometry() {
     new THREE.Vector2(0.36,  0.05),  // waist
     new THREE.Vector2(0.34,  0.25),
     new THREE.Vector2(0.38,  0.52),  // bust
-    new THREE.Vector2(0.42,  0.70),  // rise toward wide off-shoulder band
-    new THREE.Vector2(0.44,  0.78),  // off-shoulder band start
-    new THREE.Vector2(0.40,  0.85),  // off-shoulder band top (flat, wide — no neck taper)
+    new THREE.Vector2(0.34,  0.72),
+    new THREE.Vector2(0.28,  0.88),  // shoulder
+    new THREE.Vector2(0.18,  1.00),
+    new THREE.Vector2(0.10,  1.10),  // neck
+    new THREE.Vector2(0.06,  1.20),
   ];
   return new THREE.LatheGeometry(pts, 64);
 }
@@ -562,11 +530,11 @@ const geo = buildDressGeometry();
 // Two materials: front face & back face
 const matFront = new THREE.MeshStandardMaterial({
   map: frontTexture, side: THREE.FrontSide,
-  roughness: 0.85, metalness: 0.02
+  roughness: 0.78, metalness: 0.02
 });
 const matBack = new THREE.MeshStandardMaterial({
   map: backTexture,  side: THREE.BackSide,
-  roughness: 0.85, metalness: 0.02
+  roughness: 0.78, metalness: 0.02
 });
 
 const dressFront = new THREE.Mesh(geo, matFront);
@@ -696,49 +664,6 @@ animate();
 //  Signature rendering onto the texture canvas
 // ═══════════════════════════════════════════════════════════════
 
-// Clamp a hex color's HSL lightness to a max value so pale/pastel
-// swatches stay legible against the light fabric.
-function clampColorLightness(hex, maxLightness) {
-  const h = hex.replace('#', '');
-  const r = parseInt(h.substring(0,2), 16) / 255;
-  const g = parseInt(h.substring(2,4), 16) / 255;
-  const b = parseInt(h.substring(4,6), 16) / 255;
-  const max = Math.max(r,g,b), min = Math.min(r,g,b);
-  let hh, ss, ll = (max+min)/2;
-  if (max === min) { hh = ss = 0; }
-  else {
-    const d = max - min;
-    ss = ll > 0.5 ? d/(2-max-min) : d/(max+min);
-    switch (max) {
-      case r: hh = (g-b)/d + (g<b ? 6 : 0); break;
-      case g: hh = (b-r)/d + 2; break;
-      default: hh = (r-g)/d + 4;
-    }
-    hh /= 6;
-  }
-  if (ll <= maxLightness) return hex; // already dark enough
-  ll = maxLightness;
-  function hue2rgb(p, q, t) {
-    if (t < 0) t += 1;
-    if (t > 1) t -= 1;
-    if (t < 1/6) return p + (q-p)*6*t;
-    if (t < 1/2) return q;
-    if (t < 2/3) return p + (q-p)*(2/3-t)*6;
-    return p;
-  }
-  let rr, gg, bb;
-  if (ss === 0) { rr = gg = bb = ll; }
-  else {
-    const q = ll < 0.5 ? ll*(1+ss) : ll+ss-ll*ss;
-    const p = 2*ll - q;
-    rr = hue2rgb(p, q, hh + 1/3);
-    gg = hue2rgb(p, q, hh);
-    bb = hue2rgb(p, q, hh - 1/3);
-  }
-  const toHex = v => Math.round(v*255).toString(16).padStart(2,'0');
-  return '#' + toHex(rr) + toHex(gg) + toHex(bb);
-}
-
 function drawSigOnTexture(sig) {
   const tc  = sig.side === 'back' ? backCanvas  : frontCanvas;
   const tex = sig.side === 'back' ? backTexture : frontTexture;
@@ -753,45 +678,17 @@ function drawSigOnTexture(sig) {
   ctx.translate(px, py);
   ctx.rotate(rot);
 
-  // Force a minimum-contrast rule: clamp lightness so pale swatches stay legible
-  const legibleColor = clampColorLightness(sig.color, 0.45);
-
   // Name
   const fontSize = 22 + Math.floor(Math.random() * 6);
   ctx.font = `700 ${fontSize}px "Dancing Script", cursive`;
-
-  // Contrast backing pill behind the name
-  const nameWidth = ctx.measureText(sig.name).width;
+  ctx.fillStyle = sig.color;
   ctx.textAlign = 'center';
-  ctx.fillStyle = 'rgba(20,15,35,0.55)';
-  const padX = 10, padY = 6;
-  const pillW = nameWidth + padX*2;
-  const pillH = fontSize + padY*2;
-  const pillX = -pillW/2, pillY = -fontSize*0.78 - padY;
-  const pillR = 8;
-  ctx.beginPath();
-  ctx.moveTo(pillX+pillR, pillY);
-  ctx.arcTo(pillX+pillW, pillY,        pillX+pillW, pillY+pillH, pillR);
-  ctx.arcTo(pillX+pillW, pillY+pillH,  pillX,        pillY+pillH, pillR);
-  ctx.arcTo(pillX,        pillY+pillH, pillX,        pillY,        pillR);
-  ctx.arcTo(pillX,        pillY,        pillX+pillW, pillY,        pillR);
-  ctx.closePath();
-  ctx.fill();
-
-  // Soft shadow + clamped color for the name text
-  ctx.shadowColor = 'rgba(0,0,0,0.35)';
-  ctx.shadowBlur = 4;
-  ctx.shadowOffsetY = 1;
-  ctx.fillStyle = legibleColor;
   ctx.fillText(sig.name, 0, 0);
-  ctx.shadowColor = 'transparent';
-  ctx.shadowBlur = 0;
-  ctx.shadowOffsetY = 0;
 
   // Message
   if (sig.message) {
     ctx.font = `400 13px "Dancing Script", cursive`;
-    ctx.fillStyle = legibleColor + 'cc';
+    ctx.fillStyle = sig.color + 'cc';
     ctx.fillText(sig.message.length > 32 ? sig.message.slice(0,32)+'…' : sig.message, 0, 18);
   }
   ctx.restore();
@@ -804,7 +701,7 @@ function redrawAllSigs(sigs) {
   [frontCanvas, backCanvas].forEach((tc, i) => {
     const ctx = tc.getContext('2d');
     const grad = ctx.createLinearGradient(0,0,TEX_W,TEX_H);
-    grad.addColorStop(0,'#f0ead8'); grad.addColorStop(.5,'#ddd2b8'); grad.addColorStop(1,'#c9bb98');
+    grad.addColorStop(0,'#fffef8'); grad.addColorStop(.5,'#f5f0e6'); grad.addColorStop(1,'#ede8d8');
     ctx.fillStyle = grad; ctx.fillRect(0,0,TEX_W,TEX_H);
     // Redraw seams
     const side = i === 0 ? 'front' : 'back';
